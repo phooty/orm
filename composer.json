@@ -1,0 +1,23 @@
+{
+    "name": "phooty/orm",
+    "description": "Phooty ORM built with Doctrine",
+    "type": "library",
+    "license": "MIT",
+    "config": {
+        "bin-dir": "bin"
+    },
+    "authors": [
+        {
+            "name": "Simon Eddy",
+            "email": "simon@simoneddy.com.au"
+        }
+    ],
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "autoload": {
+        "psr-4": {
+            "Phooty\\Orm\\": "src"
+        }
+    },
+    "require": {}
+}
