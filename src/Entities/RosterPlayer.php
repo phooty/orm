@@ -30,7 +30,7 @@ class RosterPlayer
     /**
      * The RosterPlayer's season stats
      *
-     * @OneToOne(targetEntity="SeasonStats")
+     * @OneToOne(targetEntity="SeasonStats", cascade={"persist"})
      * @JoinColumn(name="season_stats_id", referencedColumnName="id")
      * @var SeasonStats
      */
@@ -43,6 +43,14 @@ class RosterPlayer
      * @var int
      */
     protected $season;
+    
+    /**
+     * The Player's number
+     *
+     * @Column(type="integer")
+     * @var int
+     */
+    protected $number;
 
     public function __construct()
     {
@@ -53,7 +61,7 @@ class RosterPlayer
      * Get the Player entity
      *
      * @return  Player
-     */ 
+     */
     public function getPlayer()
     {
         return $this->player;
@@ -65,7 +73,7 @@ class RosterPlayer
      * @param  Player  $player  The Player entity
      *
      * @return  self
-     */ 
+     */
     public function setPlayer(Player $player)
     {
         $this->player = $player;
@@ -77,7 +85,7 @@ class RosterPlayer
      * Get the Roster the player belongs to
      *
      * @return  Team
-     */ 
+     */
     public function getTeam()
     {
         return $this->team;
@@ -89,7 +97,7 @@ class RosterPlayer
      * @param  Team  $Team  The Team the player belongs to
      *
      * @return  self
-     */ 
+     */
     public function setTeam(Team $team)
     {
         $this->team = $team;
@@ -101,7 +109,7 @@ class RosterPlayer
      * Get the season the player is rostered for
      *
      * @return  int
-     */ 
+     */
     public function getSeason()
     {
         return $this->season;
@@ -113,10 +121,58 @@ class RosterPlayer
      * @param  int  $season  The season the player is rostered for
      *
      * @return  self
-     */ 
+     */
     public function setSeason(int $season)
     {
         $this->season = $season;
+
+        return $this;
+    }
+
+    /**
+     * Get the Player's number
+     *
+     * @return  int
+     */ 
+    public function getNumber()
+    {
+        return $this->number;
+    }
+
+    /**
+     * Set the Player's number
+     *
+     * @param  int  $number  The Player's number
+     *
+     * @return  self
+     */ 
+    public function setNumber(int $number)
+    {
+        $this->number = $number;
+
+        return $this;
+    }
+
+    /**
+     * Get the RosterPlayer's season stats
+     *
+     * @return  SeasonStats
+     */ 
+    public function getSeasonStats()
+    {
+        return $this->season_stats;
+    }
+
+    /**
+     * Set the RosterPlayer's season stats
+     *
+     * @param  SeasonStats  $season_stats  The RosterPlayer's season stats
+     *
+     * @return  self
+     */ 
+    public function setSeasonStats(SeasonStats $season_stats)
+    {
+        $this->season_stats = $season_stats;
 
         return $this;
     }

@@ -19,5 +19,9 @@
             "Phooty\\Orm\\": "src"
         }
     },
-    "require": {}
+    "require": {
+        "doctrine/orm": "^2.6",
+        "ramsey/uuid-doctrine": "^1.5",
+        "ramsey/uuid": "^3.8"
+    }
 }

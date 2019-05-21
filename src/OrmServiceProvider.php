@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Type;
 
 class OrmServiceProvider extends ServiceProvider
 {
-    public function register()
+    public function boot()
     {
         Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
 
@@ -23,7 +23,12 @@ class OrmServiceProvider extends ServiceProvider
 
         $this->app->alias(EntityManagerInterface::class, EntityManager::class);
 
-
+        /* $this->app->afterResolving(Kernel::class, function () {
+            $emh = $this->app->make(EntityManagerHelper::class);
+            $this->app->make(Kernel::class)->getHelperSet()->set($emh);
+            return;
+        }); */
+        
     }
 
     public function provides()
