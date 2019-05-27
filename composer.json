@@ -21,7 +21,17 @@
     },
     "require": {
         "doctrine/orm": "^2.6",
+        "phooty/config": "dev-master",
         "ramsey/uuid-doctrine": "^1.5",
         "ramsey/uuid": "^3.8"
+    },
+    "repositories": [
+        {
+            "type": "vcs",
+            "url": "git@github.com:phooty/config.git"
+        }
+    ],
+    "require-dev": {
+        "symfony/var-dumper": "^4.2"
     }
 }

@@ -1,21 +1,39 @@
 <?php
 namespace Phooty\Orm;
 
-use Doctrine\ORM\EntityManager;
-use Doctrine\ORM\EntityManagerInterface;
-use Doctrine\ORM\Tools\Setup;
+use Illuminate\Contracts\Config\Repository;
+use Phooty\Config\BootstrapConfig;
+use Phooty\Orm\Bootstrap\BootstrapEntityManager;
+use Doctrine\DBAL\Types\Type;
 
 class Manager
 {
     protected $em;
 
-    public function __construct(EntityManagerInterface $em = null)
+    protected $config;
+
+    public function __construct(Repository $config = null)
     {
-        null === $em ? $this->initEntityManager() : $this->em = $em;
+        $this->config = $config ?? $this->loadConfig();
+    }
+
+    private function loadConfig()
+    {
+        $path = dirname(__DIR__) . '/config';
+
+        return (new BootstrapConfig())->bootstrap([$path]);
     }
 
     private function initEntityManager()
     {
-        Setup::createAnnotationMetadataConfiguration([], true);
+        Type::addType('uuid', 'Ramsey\Uuid\Doctrine\UuidType');
+        $this->em = (new BootstrapEntityManager)->bootstrap($this->config);
+    }
+
+    public function getDoctrineManager()
+    {
+        isset($this->em) ?: $this->initEntityManager();
+
+        return $this->em;
     }
 }

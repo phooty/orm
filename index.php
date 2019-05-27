@@ -1,4 +1,4 @@
 <?php
-require __DIR__.'/vendor/autoload.php';
+$em = include_once __DIR__ . '/bootstrap.php';
 
-
+dd($em);

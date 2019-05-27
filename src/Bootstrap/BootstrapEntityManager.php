@@ -3,47 +3,40 @@ namespace Phooty\Orm\Bootstrap;
 
 use Doctrine\ORM\Tools\Setup;
 use Doctrine\ORM\EntityManager;
-use Phooty\Config\Config;
-use Phooty\Foundation\Path;
+use Illuminate\Contracts\Config\Repository as Config;
 
 class BootstrapEntityManager
 {
-    public function bootstrap(Config $config, Path $path)
+    public function bootstrap(Config $config)
     {
-        $driver = $config->get('phooty.database.driver');
+        $driver = $config->get('database.driver');
 
-        $conn = array_merge($config->get("phooty.database.{$driver}"), [
+        $conn = array_merge($config->get("database.{$driver}"), [
             'driver' => "pdo_{$driver}"
         ]);
-
-        if (isset($conn['path'])) {
-            $conn['path'] = $path.'/'.$conn['path'];
-        }
-
-        $conf = $this->createOrmConfig(array_merge(
-            $config->get('phooty.orm'),
-            ['dev_mode' => $config->get('phooty.app.dev_mode')]
-        ), $path);
+        
+        $conf = $this->createOrmConfig($config);
 
         $manager = EntityManager::create($conn, $conf);
         
         return $manager;
     }
 
-    private function createOrmConfig(array $config, Path $path)
+    private function createOrmConfig(Config $config)
     {
-        $method = $config['config_method'] ?? 'annotations';
+        $driver = $config->get("orm.config_driver");
         
-        switch ($method) {
+        switch ($driver) {
             case 'annotations':
-                $config = Setup::createAnnotationMetadataConfiguration(
+                $conf = Setup::createAnnotationMetadataConfiguration(
                     [
-                        $path->get($config['annotations']['path'])
+                        $config->get("orm.annotations.path")
                     ],
-                    $config['dev_mode']
+                    $config->get('orm.dev_mode')
                 );
                 break;
         }
-        return $config;
+
+        return $conf;
     }
 }
