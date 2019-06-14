@@ -8,8 +8,7 @@ use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Input\InputArgument;
 use Illuminate\Contracts\Container\Container;
 use Phooty\Orm\Entities\Player;
-use Phooty\Support\OrmUtil;
-use Phooty\Orm\Console\Formatter\PlayerTableFormatter;
+use Phooty\Orm\Support\OrmUtil;
 use Phooty\Orm\Console\Formatter\PlayerStatsFormatter;
 
 class FindPlayer extends Command
@@ -26,7 +25,6 @@ class FindPlayer extends Command
     public function __construct(Container $app)
     {
         $this->app = $app;
-        $this->orm = $this->app->make(OrmUtil::class);
         parent::__construct();
     }
 
@@ -66,6 +64,8 @@ class FindPlayer extends Command
                 $data = ['surname' => $names[1], 'given_names' => $names[0]];
                 break;
         }
+
+        $this->orm = $this->app->make(OrmUtil::class);
 
         $results = $this->orm->findAll(Player::class, $data, function () {
             return [];

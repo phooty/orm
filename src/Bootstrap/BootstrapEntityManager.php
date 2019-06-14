@@ -32,7 +32,7 @@ class BootstrapEntityManager
                     [
                         $config->get("orm.annotations.path")
                     ],
-                    $config->get('orm.dev_mode')
+                    $config->get('orm.dev_mode', true)
                 );
                 break;
         }
