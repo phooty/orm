@@ -27,7 +27,7 @@ class OrmUtil
     private function makeModelClassname(string $model)
     {
         if (false === strpos($model, static::ENT_NAMESPACE)) {
-            $model = static::ENT_NAMESPACE . $model;
+            $model = static::ENT_NAMESPACE . ucfirst($model);
         }
         return $model;
     }
