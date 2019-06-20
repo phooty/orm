@@ -1,4 +1,10 @@
 <?php
+use Phooty\Orm\Support\OrmUtil;
+
 $em = include_once __DIR__ . '/bootstrap.php';
 
-dd($em->getDoctrineManager());
+$orm = new OrmUtil($em->getDoctrineManager());
+
+dd($orm->find('Player', [
+    'surname' => 'Jones'
+]));

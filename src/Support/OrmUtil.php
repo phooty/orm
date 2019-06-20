@@ -5,6 +5,8 @@ use Doctrine\ORM\EntityManagerInterface;
 
 class OrmUtil
 {
+    const ENT_NAMESPACE = 'Phooty\\Orm\\Entities\\';
+
     private $em;
 
     private $repos = [];
@@ -22,8 +24,18 @@ class OrmUtil
         return $this->repos[$model];
     }
 
+    private function makeModelClassname(string $model)
+    {
+        if (false === strpos($model, static::ENT_NAMESPACE)) {
+            $model = static::ENT_NAMESPACE . $model;
+        }
+        return $model;
+    }
+
     public function find(string $model, array $data, callable $callback = null)
     {
+        $model = $this->makeModelClassname($model);
+
         $repo = $this->repo($model);
         $result = $repo->findOneBy($data);
         if (null === $result) {
