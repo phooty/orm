@@ -18,6 +18,8 @@ class OrmUtil
 
     public function repo(string $model)
     {
+        $model = $this->makeModelClassname($model);
+
         if (!isset($this->repos[$model])) {
             $this->repos[$model] = $this->em->getRepository($model);
         }
@@ -34,8 +36,6 @@ class OrmUtil
 
     public function find(string $model, array $data, callable $callback = null)
     {
-        $model = $this->makeModelClassname($model);
-
         $repo = $this->repo($model);
         $result = $repo->findOneBy($data);
         if (null === $result) {
